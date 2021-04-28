@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+
 import D4 from "../DiceIMG/D4";
 import D6 from "../DiceIMG/D6";
 import D8 from "../DiceIMG/D8";
 import D10 from "../DiceIMG/D10";
 import D12 from "../DiceIMG/D12";
 import D20 from "../DiceIMG/D20";
+
+import Spinner from "../Spinner/Spinner";
 
 const DICE_CLASS = "flex, mx-auto my-4";
 
@@ -28,10 +31,22 @@ const getSVG = (n) => {
 };
 
 const NumberDisplay = (props) => {
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+   
+  }, [props.diceNumber]);
+
+  const spinner = loading ? <Spinner /> : props.diceNumber;
+
   return (
     <div>
       <div className={`text-center text-8xl mt-5`}>
-        {props.diceNumber}
+        {spinner}
         {getSVG(props.faces)}
         {/* <img src={process.env.PUBLIC_URL + '/D10.svg'} /> */}
       </div>
